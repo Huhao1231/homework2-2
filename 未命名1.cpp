@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-//ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½
+//¾ØÕó×ªÖÃ
 void mat_transpose(double *A, double *AT, int nrow, int ncol)
 {
     for(int i = 0; i < nrow; i++)
@@ -9,7 +10,7 @@ void mat_transpose(double *A, double *AT, int nrow, int ncol)
             AT[j * nrow + i] = A[i * ncol + j];
 }
 
-//ï¿½ï¿½ï¿½ï¿½Ë·ï¿½ A(n*m) ï¿½ï¿½ B(m*p) = C(n*p)
+//¾ØÕó³Ë·¨ A(n*m) ¡Á B(m*p) = C(n*p)
 void mat_mult(double *A, double *B, double *C, int n, int m, int p)
 {
     for(int i = 0; i < n; i++){
@@ -22,7 +23,7 @@ void mat_mult(double *A, double *B, double *C, int n, int m, int p)
     }
 }
 
-//ï¿½ï¿½Ë¹Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ£¬n=6
+//¸ßË¹Ô¼µ©·¨Çó·½ÕóÄæ£¬n=6
 int mat_inv(double *A, double *invA, int n)
 {
     int i,j,k;
@@ -49,14 +50,14 @@ int mat_inv(double *A, double *invA, int n)
 
 int main()
 {
-    const int N = 400;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    const int p = 6;    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0,Price,Income,Advertising,Good,Medium
+    const int N = 400;  //Ñù±¾×ÜÊý
+    const int p = 6;    //²ÎÊý¸öÊý£º¦Â0,Price,Income,Advertising,Good,Medium
     double *X  = (double*)malloc(N * p * sizeof(double));
     double *y  = (double*)malloc(N * sizeof(double));
 
-    // ========== Carseats 400ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ==========
+    // ========== Carseats 400ÌõÊý¾Ý ==========
     int row = 0;
-    //ï¿½ï¿½Ê½ï¿½ï¿½X[row] = [1, Price, Income, Advertising, ShelveLoc_Good, ShelveLoc_Medium], y[row]=Sales
+    //¸ñÊ½£ºX[row] = [1, Price, Income, Advertising, ShelveLoc_Good, ShelveLoc_Medium], y[row]=Sales
     //1
     X[row*p+0]=1; X[row*p+1]=120; X[row*p+2]=73; X[row*p+3]=11; X[row*p+4]=0; X[row*p+5]=0; y[row]=9.50; row++;
     //2
@@ -90,19 +91,19 @@ int main()
     mat_mult(XT, y, XTy, p, N, 1);
 
     if(!mat_inv(XTX, invXTX, p)){
-        printf("ï¿½ï¿½ï¿½ó²»¿ï¿½ï¿½æ£¡\n");
+        printf("¾ØÕó²»¿ÉÄæ£¡\n");
         return -1;
     }
     mat_mult(invXTX, XTy, beta, p, p, 1);
 
-    printf("==== Carseatsï¿½ï¿½Ôªï¿½ï¿½ï¿½Ô»Ø¹ï¿½ï¿½ï¿½ ====\n");
-    printf("ï¿½Ø¾ï¿½ ï¿½ï¿½0        = %.4f\n", beta[0]);
-    printf("PriceÏµï¿½ï¿½ ï¿½ï¿½1   = %.4f\n", beta[1]);
-    printf("IncomeÏµï¿½ï¿½ ï¿½ï¿½2  = %.4f\n", beta[2]);
-    printf("Advertising ï¿½ï¿½3 = %.4f\n", beta[3]);
-    printf("ShelveLoc_Good ï¿½ï¿½4= %.4f\n", beta[4]);
-    printf("ShelveLoc_Medium ï¿½ï¿½5= %.4f\n", beta[5]);
-    printf("\nï¿½Ø¹é·½ï¿½Ì£ï¿½\nSales = %.4f + %.4f*Price + %.4f*Income + %.4f*Advertising + %.4f*ShelveLoc_Good + %.4f*ShelveLoc_Medium\n",
+    printf("==== Carseats¶àÔªÏßÐÔ»Ø¹é½á¹û ====\n");
+    printf("½Ø¾à ¦Â0        = %.4f\n", beta[0]);
+    printf("PriceÏµÊý ¦Â1   = %.4f\n", beta[1]);
+    printf("IncomeÏµÊý ¦Â2  = %.4f\n", beta[2]);
+    printf("Advertising ¦Â3 = %.4f\n", beta[3]);
+    printf("ShelveLoc_Good ¦Â4= %.4f\n", beta[4]);
+    printf("ShelveLoc_Medium ¦Â5= %.4f\n", beta[5]);
+    printf("\n»Ø¹é·½³Ì£º\nSales = %.4f + %.4f*Price + %.4f*Income + %.4f*Advertising + %.4f*ShelveLoc_Good + %.4f*ShelveLoc_Medium\n",
            beta[0], beta[1], beta[2], beta[3], beta[4], beta[5]);
 
     free(X);free(y);free(XT);free(XTX);free(XTy);free(invXTX);free(beta);
